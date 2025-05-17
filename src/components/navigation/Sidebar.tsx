@@ -46,7 +46,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, icon, label, badge }) => (
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   // This is a placeholder - in a real app you'd get this from auth state
-  const userRole: UserRole = 'student'; // Options: 'admin', 'instructor', 'student', 'guardian', 'mentor'
+  const userRole = 'student' as UserRole; // Add type assertion to ensure userRole is treated as UserRole type
 
   return (
     <>
