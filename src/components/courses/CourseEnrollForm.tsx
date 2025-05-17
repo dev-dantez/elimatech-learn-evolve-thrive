@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
+import { CheckCircle } from 'lucide-react';
 import {
   Form,
   FormControl,
