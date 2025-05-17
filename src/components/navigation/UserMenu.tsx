@@ -7,7 +7,8 @@ import {
   CreditCard,
   LogOut,
   GraduationCap,
-  BookOpen
+  BookOpen,
+  MessageSquare
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -20,11 +21,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 const UserMenu = () => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    // Implement logout functionality - redirect to login page
-    console.log('User logged out');
+    // In a real app, this would clear authentication state
+    toast({
+      title: "Logged out successfully",
+      description: "You have been logged out of your account.",
+    });
+    
+    // Redirect to login page
+    navigate('/login');
   };
 
   return (
@@ -65,13 +76,19 @@ const UserMenu = () => {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
+            <Link to="/messages" className="cursor-pointer flex w-full items-center">
+              <MessageSquare className="mr-2 h-4 w-4" />
+              <span>Messages</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link to="/settings" className="cursor-pointer flex w-full items-center">
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link to="/payments" className="cursor-pointer flex w-full items-center">
+            <Link to="/billing" className="cursor-pointer flex w-full items-center">
               <CreditCard className="mr-2 h-4 w-4" />
               <span>Billing</span>
             </Link>

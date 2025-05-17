@@ -1,7 +1,10 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { X, Home, BookOpen, Users, CreditCard, Settings, GraduationCap, BookCheck, MessageSquare } from 'lucide-react';
+import { 
+  X, Home, BookOpen, Users, CreditCard, Settings, GraduationCap, BookCheck, MessageSquare,
+  Bot, LayoutDashboard, ChartBar, ChartLine, Coins
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import Logo from '@/components/common/Logo';
@@ -46,7 +49,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, icon, label, badge }) => (
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   // This is a placeholder - in a real app you'd get this from auth state
-  const userRole = 'student' as UserRole; // Add type assertion to ensure userRole is treated as UserRole type
+  const userRole = 'admin' as UserRole; // Add type assertion to ensure userRole is treated as UserRole type
 
   return (
     <>
@@ -79,34 +82,24 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
             <NavItem to="/my-learning" icon={<BookCheck className="h-4 w-4" />} label="My Learning" />
             <NavItem to="/certificates" icon={<GraduationCap className="h-4 w-4" />} label="Certificates" />
             <NavItem to="/messages" icon={<MessageSquare className="h-4 w-4" />} label="Messages" badge={2} />
+            <NavItem to="/ai-tutor" icon={<Bot className="h-4 w-4" />} label="AI Tutor" />
+            <NavItem to="/settings" icon={<Settings className="h-4 w-4" />} label="Settings" />
+            <NavItem to="/billing" icon={<CreditCard className="h-4 w-4" />} label="Billing" />
           </div>
 
           {/* Admin-only navigation */}
-          {userRole === 'admin' && (
+          {(userRole === 'admin' || userRole === 'instructor') && (
             <>
               <Separator className="my-4" />
               <p className="mb-2 px-3 text-xs font-medium text-muted-foreground">
-                Administration
+                {userRole === 'admin' ? 'Administration' : 'Instructor'}
               </p>
               <div className="space-y-1">
-                <NavItem to="/admin" icon={<Settings className="h-4 w-4" />} label="Dashboard" />
+                <NavItem to="/admin" icon={<LayoutDashboard className="h-4 w-4" />} label="Admin Dashboard" />
                 <NavItem to="/admin/users" icon={<Users className="h-4 w-4" />} label="Users" />
                 <NavItem to="/admin/payments" icon={<CreditCard className="h-4 w-4" />} label="Payments" />
-              </div>
-            </>
-          )}
-
-          {/* Instructor-only navigation */}
-          {userRole === 'instructor' && (
-            <>
-              <Separator className="my-4" />
-              <p className="mb-2 px-3 text-xs font-medium text-muted-foreground">
-                Instructor
-              </p>
-              <div className="space-y-1">
-                <NavItem to="/instructor" icon={<Settings className="h-4 w-4" />} label="Dashboard" />
-                <NavItem to="/instructor/courses" icon={<BookOpen className="h-4 w-4" />} label="My Courses" />
-                <NavItem to="/instructor/students" icon={<Users className="h-4 w-4" />} label="Students" />
+                <NavItem to="/admin/earnings" icon={<Coins className="h-4 w-4" />} label="Earnings" />
+                <NavItem to="/admin/analytics" icon={<ChartBar className="h-4 w-4" />} label="Analytics" />
               </div>
             </>
           )}

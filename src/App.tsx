@@ -20,11 +20,18 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Courses from "./pages/dashboard/Courses";
 import CourseDetails from "./pages/dashboard/CourseDetails";
 import Profile from "./pages/dashboard/Profile";
+import Messages from "./pages/dashboard/Messages";
+import AITutor from "./pages/dashboard/AITutor";
+import Certificates from "./pages/dashboard/Certificates";
+import Settings from "./pages/dashboard/Settings";
+import Billing from "./pages/dashboard/Billing";
 
 // Admin Pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
 import PaymentLogs from "./pages/admin/PaymentLogs";
+import Earnings from "./pages/admin/Earnings";
+import Analytics from "./pages/admin/Analytics";
 
 import NotFound from "./pages/NotFound";
 
@@ -53,11 +60,18 @@ const App = () => (
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:courseId" element={<CourseDetails />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/ai-tutor" element={<AITutor />} />
+            <Route path="/certificates" element={<Certificates />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/billing" element={<Billing />} />
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<UserManagement />} />
             <Route path="/admin/payments" element={<PaymentLogs />} />
+            <Route path="/admin/earnings" element={<Earnings />} />
+            <Route path="/admin/analytics" element={<Analytics />} />
           </Route>
           
           <Route path="*" element={<NotFound />} />
