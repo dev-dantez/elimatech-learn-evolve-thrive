@@ -6,7 +6,7 @@ import {
   Settings,
   CreditCard,
   LogOut,
-  Graduation,
+  GraduationCap,
   BookOpen
 } from 'lucide-react';
 import {
@@ -60,7 +60,7 @@ const UserMenu = () => {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link to="/certificates" className="cursor-pointer flex w-full items-center">
-              <Graduation className="mr-2 h-4 w-4" />
+              <GraduationCap className="mr-2 h-4 w-4" />
               <span>Certificates</span>
             </Link>
           </DropdownMenuItem>

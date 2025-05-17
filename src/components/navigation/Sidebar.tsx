@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { X, Home, BookOpen, Users, CreditCard, Settings, Graduation, BookCheck, MessageSquare } from 'lucide-react';
+import { X, Home, BookOpen, Users, CreditCard, Settings, GraduationCap, BookCheck, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import Logo from '@/components/common/Logo';
@@ -18,6 +18,9 @@ interface NavItemProps {
   label: string;
   badge?: number;
 }
+
+// Define user role type for type safety
+type UserRole = 'admin' | 'instructor' | 'student' | 'guardian' | 'mentor';
 
 const NavItem: React.FC<NavItemProps> = ({ to, icon, label, badge }) => (
   <NavLink
@@ -43,7 +46,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, icon, label, badge }) => (
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   // This is a placeholder - in a real app you'd get this from auth state
-  const userRole = 'student'; // Options: 'admin', 'instructor', 'student', 'guardian', 'mentor'
+  const userRole: UserRole = 'student'; // Options: 'admin', 'instructor', 'student', 'guardian', 'mentor'
 
   return (
     <>
@@ -74,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
             <NavItem to="/dashboard" icon={<Home className="h-4 w-4" />} label="Dashboard" />
             <NavItem to="/courses" icon={<BookOpen className="h-4 w-4" />} label="Courses" badge={3} />
             <NavItem to="/my-learning" icon={<BookCheck className="h-4 w-4" />} label="My Learning" />
-            <NavItem to="/certificates" icon={<Graduation className="h-4 w-4" />} label="Certificates" />
+            <NavItem to="/certificates" icon={<GraduationCap className="h-4 w-4" />} label="Certificates" />
             <NavItem to="/messages" icon={<MessageSquare className="h-4 w-4" />} label="Messages" badge={2} />
           </div>
 

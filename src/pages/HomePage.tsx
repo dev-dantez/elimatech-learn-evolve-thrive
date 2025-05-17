@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, BookOpen, Graduation, Users, BookCheck, Brain } from 'lucide-react';
+import { ChevronRight, BookOpen, GraduationCap, Users, BookCheck, Brain } from 'lucide-react';
 import Logo from '@/components/common/Logo';
 
 interface FeatureCardProps {
@@ -111,7 +110,7 @@ const HomePage = () => {
               description="24/7 AI assistant that helps answer questions and explains concepts."
             />
             <FeatureCard
-              icon={<Graduation size={24} />}
+              icon={<GraduationCap size={24} />}
               title="Verified Certificates"
               description="Earn certificates upon course completion with secure verification."
             />

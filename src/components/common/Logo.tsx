@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Graduation } from 'lucide-react';
+import { GraduationCap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface LogoProps {
@@ -26,7 +26,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'medium', className }) => {
   return (
     <Link to="/" className="flex items-center gap-2">
       <div className="rounded-lg bg-gradient-to-br from-elimu-primary to-elimu-accent p-1 text-white">
-        <Graduation size={iconSize} />
+        <GraduationCap size={iconSize} />
       </div>
       <h1 className={cn('font-bold flex', getSize(), className)}>
         <span className="text-elimu-primary">Elimu</span>
