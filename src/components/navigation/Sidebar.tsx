@@ -19,7 +19,7 @@ interface NavItemProps {
   badge?: number;
 }
 
-// Define user role type for type safety
+// Define user role type as a proper union type
 type UserRole = 'admin' | 'instructor' | 'student' | 'guardian' | 'mentor';
 
 const NavItem: React.FC<NavItemProps> = ({ to, icon, label, badge }) => (
