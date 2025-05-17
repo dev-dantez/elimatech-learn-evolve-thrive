@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageHeader from '@/components/common/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,9 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, Play, FileText, Download, CheckCircle, Clock, Calendar, BookOpen } from 'lucide-react';
+import CourseProgress from '@/components/courses/CourseProgress';
+import CourseRating from '@/components/courses/CourseRating';
 
 const CourseDetails = () => {
   const { courseId } = useParams();
+  const [activeLesson, setActiveLesson] = useState<number | null>(null);
   
   // This would come from an API call in a real app
   const course = {
@@ -24,6 +26,7 @@ const CourseDetails = () => {
     totalLessons: 28,
     completedLessons: 12,
     progress: 42, // percentage
+    lastAccessed: '2 days ago',
     instructor: {
       name: 'Sarah Johnson',
       title: 'Senior Developer & Educator',
@@ -182,6 +185,11 @@ const CourseDetails = () => {
     }
   };
 
+  const handleLessonClick = (lessonId: number) => {
+    setActiveLesson(lessonId);
+    // In a real app, this would navigate to the lesson content or mark it as started
+  };
+
   return (
     <>
       <PageHeader 
@@ -199,6 +207,7 @@ const CourseDetails = () => {
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="resources">Resources</TabsTrigger>
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
+              <TabsTrigger value="discussion">Discussion</TabsTrigger>
             </TabsList>
             
             {/* Content Tab */}
@@ -225,7 +234,7 @@ const CourseDetails = () => {
                           {module.lessons.map((lesson) => (
                             <div 
                               key={lesson.id} 
-                              className={`p-4 flex items-center justify-between ${lesson.completed ? 'bg-muted/20' : ''}`}
+                              className={`p-4 flex items-center justify-between ${lesson.completed ? 'bg-muted/20' : ''} ${activeLesson === lesson.id ? 'ring-1 ring-primary' : ''}`}
                             >
                               <div className="flex items-center gap-3">
                                 <div className={`rounded-full p-1.5 ${lesson.completed ? 'bg-green-100 text-green-700' : 'bg-muted'}`}>
@@ -240,7 +249,11 @@ const CourseDetails = () => {
                                   </div>
                                 </div>
                               </div>
-                              <Button variant="ghost" size="sm">
+                              <Button 
+                                variant={lesson.completed ? "outline" : "default"} 
+                                size="sm"
+                                onClick={() => handleLessonClick(lesson.id)}
+                              >
                                 {lesson.completed ? 'Revisit' : 'Start'}
                               </Button>
                             </div>
@@ -369,6 +382,28 @@ const CourseDetails = () => {
                       </div>
                     ))}
                   </div>
+                  
+                  <div className="border-t pt-6">
+                    <CourseRating courseId={course.id} />
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            {/* Discussion Tab (New) */}
+            <TabsContent value="discussion">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Course Discussion</CardTitle>
+                  <CardDescription>
+                    Engage with other students and ask questions
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground">Join the conversation about this course</p>
+                    <Button className="mt-4">Start a Discussion</Button>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -377,38 +412,21 @@ const CourseDetails = () => {
         
         {/* Sidebar */}
         <div>
-          <Card className="sticky top-24">
-            <CardContent className="p-6">
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-2">Your Progress</h3>
-                <Progress value={course.progress} className="h-2 mb-1" />
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <span>{course.completedLessons} of {course.totalLessons} lessons completed</span>
-                  <span>{course.progress}%</span>
-                </div>
-              </div>
-              
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">{course.duration} total length</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">{course.totalLessons} lessons</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">Last updated {course.updatedAt}</span>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
+          <div className="space-y-6">
+            <CourseProgress
+              totalLessons={course.totalLessons}
+              completedLessons={course.completedLessons}
+              duration={course.duration}
+              lastAccessed={course.lastAccessed}
+            />
+            
+            <Card className="sticky top-24">
+              <CardContent className="p-6 space-y-4">
                 <Button className="w-full">Continue Learning</Button>
                 <Button variant="outline" className="w-full">Download Resources</Button>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </>
