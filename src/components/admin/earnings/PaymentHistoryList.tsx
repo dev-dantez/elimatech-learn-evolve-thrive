@@ -15,6 +15,14 @@ interface PaymentHistoryListProps {
 }
 
 const PaymentHistoryList: React.FC<PaymentHistoryListProps> = ({ payments, formatCurrency, formatDate }) => {
+  if (!payments || payments.length === 0) {
+    return (
+      <div className="py-8 text-center">
+        <p className="text-muted-foreground">No payment history available</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {payments.map(payment => (

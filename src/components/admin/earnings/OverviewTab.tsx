@@ -44,6 +44,10 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   formatCurrency,
   formatDate
 }) => {
+  const hasRevenueData = revenueData && revenueData.length > 0;
+  const hasCourseData = courseEarnings && courseEarnings.length > 0;
+  const hasPaymentData = paymentHistory && paymentHistory.length > 0;
+
   return (
     <>
       <Card>
@@ -52,7 +56,13 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
           <CardDescription>Your earnings and enrollments over time</CardDescription>
         </CardHeader>
         <CardContent className="h-96">
-          <RevenueOverviewChart data={revenueData} />
+          {hasRevenueData ? (
+            <RevenueOverviewChart data={revenueData} />
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-muted-foreground">No revenue data available yet</p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -64,10 +74,10 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
           </CardHeader>
           <CardContent className="h-80">
             <CourseRevenueChart 
-              data={courseEarnings.map(course => ({
+              data={hasCourseData ? courseEarnings.map(course => ({
                 name: course.course.length > 20 ? course.course.substring(0, 20) + '...' : course.course,
                 revenue: course.revenue / 100, // Converting cents to dollars for better visualization
-              }))}
+              })) : []}
             />
           </CardContent>
         </Card>
@@ -85,7 +95,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             />
           </CardContent>
           <CardFooter>
-            <Button variant="outline" className="w-full">View All Payouts</Button>
+            <Button variant="outline" className="w-full" disabled={!hasPaymentData}>View All Payouts</Button>
           </CardFooter>
         </Card>
       </div>

@@ -35,31 +35,37 @@ const CoursesTab: React.FC<CoursesTabProps> = ({ courseEarnings, formatCurrency,
         <CardDescription>Performance metrics for each of your courses</CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Course</TableHead>
-              <TableHead className="text-right">Enrollments</TableHead>
-              <TableHead className="text-right">Revenue</TableHead>
-              <TableHead className="text-center">Rating</TableHead>
-              <TableHead>Last Enrolled</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {courseEarnings.map(course => (
-              <TableRow key={course.id}>
-                <TableCell className="font-medium">{course.course}</TableCell>
-                <TableCell className="text-right">{course.enrollments}</TableCell>
-                <TableCell className="text-right">{formatCurrency(course.revenue)}</TableCell>
-                <TableCell className="text-center">{course.rating}/5.0</TableCell>
-                <TableCell>{formatDate(course.lastEnrolled)}</TableCell>
+        {courseEarnings && courseEarnings.length > 0 ? (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Course</TableHead>
+                <TableHead className="text-right">Enrollments</TableHead>
+                <TableHead className="text-right">Revenue</TableHead>
+                <TableHead className="text-center">Rating</TableHead>
+                <TableHead>Last Enrolled</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {courseEarnings.map(course => (
+                <TableRow key={course.id}>
+                  <TableCell className="font-medium">{course.course}</TableCell>
+                  <TableCell className="text-right">{course.enrollments}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(course.revenue)}</TableCell>
+                  <TableCell className="text-center">{course.rating}/5.0</TableCell>
+                  <TableCell>{formatDate(course.lastEnrolled)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <div className="py-8 text-center">
+            <p className="text-muted-foreground">No course data available. Create and publish courses to see revenue data.</p>
+          </div>
+        )}
       </CardContent>
       <CardFooter>
-        <Button variant="outline" className="ml-auto">
+        <Button variant="outline" className="ml-auto" disabled={!courseEarnings || courseEarnings.length === 0}>
           <Download className="h-4 w-4 mr-2" />
           Export Course Data
         </Button>

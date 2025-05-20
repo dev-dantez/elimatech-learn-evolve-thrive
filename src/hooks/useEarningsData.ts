@@ -43,7 +43,7 @@ export const useEarningsData = (timeRange: string) => {
   }, []);
 
   const { data: earningsData, isLoading: earningsLoading } = useQuery({
-    queryKey: ['tutor-earnings', userId],
+    queryKey: ['tutor-earnings', userId, timeRange],
     queryFn: () => userId ? getTutorEarnings(userId) : Promise.resolve({ totalEarnings: 0, payments: [] }),
     enabled: !!userId,
   });
@@ -55,14 +55,14 @@ export const useEarningsData = (timeRange: string) => {
   });
 
   const { data: paymentsData, isLoading: paymentsLoading } = useQuery({
-    queryKey: ['tutor-payments', userId],
+    queryKey: ['tutor-payments', userId, timeRange],
     queryFn: () => userId ? getPaymentsByTutor(userId) : Promise.resolve([]),
     enabled: !!userId,
   });
 
   const prepareRevenueChartData = (): RevenueDataPoint[] => {
     if (!paymentsData || paymentsData.length === 0) {
-      return defaultRevenueData;
+      return [];
     }
 
     const monthlyData: Record<string, { revenue: number, enrollments: number }> = {};
@@ -110,61 +110,7 @@ export const useEarningsData = (timeRange: string) => {
       });
   };
 
-  // Default data in case real data is not available
-  const defaultRevenueData: RevenueDataPoint[] = [
-    { month: 'Jan', revenue: 2450, enrollments: 12 },
-    { month: 'Feb', revenue: 3680, enrollments: 18 },
-    { month: 'Mar', revenue: 5200, enrollments: 25 },
-    { month: 'Apr', revenue: 3950, enrollments: 19 },
-    { month: 'May', revenue: 4800, enrollments: 22 },
-    { month: 'Jun', revenue: 6500, enrollments: 32 },
-  ];
-
-  const defaultCourseEarnings: CourseEarning[] = [
-    { 
-      id: '1',
-      course: 'Introduction to Web Development',
-      enrollments: 245,
-      revenue: 122500,
-      rating: 4.8,
-      lastEnrolled: '2025-05-15',
-    },
-    { 
-      id: '2',
-      course: 'Advanced JavaScript Concepts',
-      enrollments: 178,
-      revenue: 89000,
-      rating: 4.7,
-      lastEnrolled: '2025-05-16',
-    },
-    { 
-      id: '3',
-      course: 'UI/UX Design Fundamentals',
-      enrollments: 312,
-      revenue: 156000,
-      rating: 4.9,
-      lastEnrolled: '2025-05-17',
-    },
-    { 
-      id: '4',
-      course: 'Python for Data Science',
-      enrollments: 195,
-      revenue: 97500,
-      rating: 4.6,
-      lastEnrolled: '2025-05-14',
-    },
-    { 
-      id: '5',
-      course: 'Mobile App Development with React Native',
-      enrollments: 163,
-      revenue: 81500,
-      rating: 4.5,
-      lastEnrolled: '2025-05-13',
-    },
-  ];
-
-  // Use either real data or default data
-  const revenueData = paymentsData && paymentsData.length > 0 ? prepareRevenueChartData() : defaultRevenueData;
+  const revenueData = prepareRevenueChartData();
   
   const courseEarnings: CourseEarning[] = coursesData && coursesData.length > 0 
     ? coursesData.map(course => {
@@ -184,9 +130,9 @@ export const useEarningsData = (timeRange: string) => {
           lastEnrolled: lastPayment?.paid_at || new Date().toISOString(),
         };
       })
-    : defaultCourseEarnings;
+    : [];
 
-  // Use either real payment data or default data
+  // Use real payment data - no default data
   const paymentHistory: Payment[] = paymentsData && paymentsData.length > 0
     ? paymentsData.slice(0, 5).map(payment => ({
         id: payment.transaction_ref || payment.id,
@@ -196,34 +142,9 @@ export const useEarningsData = (timeRange: string) => {
         enrollments: 1,
         status: payment.status || 'paid'
       }))
-    : [
-        {
-          id: 'pmt_001',
-          amount: 56700,
-          date: '2025-05-15',
-          courses: 'Multiple Courses',
-          enrollments: 12,
-          status: 'paid'
-        },
-        {
-          id: 'pmt_002',
-          amount: 42500,
-          date: '2025-05-01',
-          courses: 'Multiple Courses',
-          enrollments: 9,
-          status: 'paid'
-        },
-        {
-          id: 'pmt_003',
-          amount: 38900,
-          date: '2025-04-15',
-          courses: 'Multiple Courses',
-          enrollments: 8,
-          status: 'paid'
-        },
-      ];
+    : [];
 
-  // Calculate totals
+  // Calculate totals from real data
   const totalRevenue = earningsData?.totalEarnings || courseEarnings.reduce((sum, course) => sum + course.revenue, 0);
   const totalEnrollments = courseEarnings.reduce((sum, course) => sum + course.enrollments, 0);
 
