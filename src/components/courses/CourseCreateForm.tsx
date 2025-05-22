@@ -39,7 +39,7 @@ const CourseCreateForm = () => {
     defaultValues: {
       title: '',
       description: '',
-      price: '0',
+      price: '0', // This should be a string since the input type is text/number
     },
   });
 
@@ -50,10 +50,11 @@ const CourseCreateForm = () => {
         return;
       }
 
+      // Now values.price will be automatically converted to a number by Zod
       const courseData = {
         title: values.title,
         description: values.description,
-        price: values.price,
+        price: values.price, // This is now a number after Zod transformation
       };
 
       const newCourse = await createCourse(courseData, session.user.id);
