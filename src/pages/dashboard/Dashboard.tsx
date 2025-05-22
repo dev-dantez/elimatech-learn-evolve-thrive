@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -21,6 +20,7 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import CreateCourseButton from '@/components/dashboard/CreateCourseButton';
 
 // Mock data - would come from API in real app
 const enrolledCourses = [
@@ -161,10 +161,13 @@ const Dashboard = () => {
         title="Student Dashboard"
         description="Welcome back! Here's an overview of your learning progress."
       >
-        <Button>
-          <BookOpen className="mr-2 h-4 w-4" />
-          Browse Courses
-        </Button>
+        <div className="flex gap-2">
+          <CreateCourseButton />
+          <Button variant="outline">
+            <BookOpen className="mr-2 h-4 w-4" />
+            Browse Courses
+          </Button>
+        </div>
       </PageHeader>
 
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">

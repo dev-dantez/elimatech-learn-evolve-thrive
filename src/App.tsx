@@ -1,88 +1,50 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Dashboard from '@/pages/dashboard/Dashboard';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+import CoursesPage from '@/pages/courses/CoursesPage';
+import CourseDetailsPage from '@/pages/courses/CourseDetailsPage';
+import MyCoursesPage from '@/pages/courses/MyCoursesPage';
+import InstructorDashboard from '@/pages/instructor/InstructorDashboard';
+import SettingsPage from '@/pages/settings/SettingsPage';
+import LoginPage from '@/pages/auth/LoginPage';
+import RegisterPage from '@/pages/auth/RegisterPage';
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
+import ContactPage from '@/pages/support/ContactPage';
+import PrivacyPolicyPage from '@/pages/legal/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/legal/TermsOfServicePage';
+import NotFoundPage from '@/pages/error/NotFoundPage';
+import CourseEditPage from '@/pages/instructor/CourseEditPage';
+import LessonDetailsPage from '@/pages/courses/LessonDetailsPage';
+import CreateCourse from '@/pages/dashboard/CreateCourse';
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// Layouts
-import DashboardLayout from "./layouts/DashboardLayout";
-import AuthLayout from "./layouts/AuthLayout";
-
-// Authentication Pages
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-
-// Core Pages
-import HomePage from "./pages/HomePage";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Dashboard from "./pages/dashboard/Dashboard";
-import Courses from "./pages/dashboard/Courses";
-import CourseDetails from "./pages/dashboard/CourseDetails";
-import Profile from "./pages/dashboard/Profile";
-import Messages from "./pages/dashboard/Messages";
-import AITutor from "./pages/dashboard/AITutor";
-import Certificates from "./pages/dashboard/Certificates";
-import Settings from "./pages/dashboard/Settings";
-import Billing from "./pages/dashboard/Billing";
-
-// Admin Pages
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import UserManagement from "./pages/admin/UserManagement";
-import PaymentLogs from "./pages/admin/PaymentLogs";
-import Earnings from "./pages/admin/Earnings";
-import Analytics from "./pages/admin/Analytics";
-
-import NotFound from "./pages/NotFound";
-
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          
-          {/* Auth Routes */}
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-          </Route>
-          
-          {/* Protected Dashboard Routes */}
-          <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/courses/:courseId" element={<CourseDetails />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/ai-tutor" element={<AITutor />} />
-            <Route path="/certificates" element={<Certificates />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/billing" element={<Billing />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<UserManagement />} />
-            <Route path="/admin/payments" element={<PaymentLogs />} />
-            <Route path="/admin/earnings" element={<Earnings />} />
-            <Route path="/admin/analytics" element={<Analytics />} />
-          </Route>
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<CoursesPage />} />
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
+        <Route path="/courses/:courseId/lessons/:lessonId" element={<LessonDetailsPage />} />
+        <Route path="/my-courses" element={<MyCoursesPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/instructor" element={<InstructorDashboard />} />
+        <Route path="/instructor/courses/:courseId/edit" element={<CourseEditPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/dashboard/courses/create" element={<CreateCourse />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
